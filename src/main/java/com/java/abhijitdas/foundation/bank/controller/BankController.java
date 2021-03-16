@@ -5,7 +5,9 @@ import com.java.abhijitdas.foundation.bank.services.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -29,6 +31,7 @@ public class BankController {
         return accountService.getAccount(id);
     }
 
+
     @PostMapping(value = "/accounts")
     public String addAccount(@RequestBody Account account) {
         accountService.addAccount(account);
@@ -39,6 +42,5 @@ public class BankController {
     public void deleteAccountById(@PathVariable Integer accountNumber) {
         accountService.deleteAccountByAccountNumber(accountNumber);
     }
-
 
 }

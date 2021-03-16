@@ -28,6 +28,7 @@ public class AccountServiceImpl implements IAccountService {
         return accountRepository.findById(accNumber);
     }
 
+
     @Override
     public void deleteAccountById(Integer accountNumber) {
          accountRepository.deleteById(accountNumber);
@@ -57,4 +58,5 @@ public class AccountServiceImpl implements IAccountService {
     public void deleteAccountByAccountNumber(Integer accountNumber) {
         accountRepository.deleteAccountByAccountNumber(accountNumber);
     }
+
 }
