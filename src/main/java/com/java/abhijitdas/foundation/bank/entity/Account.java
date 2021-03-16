@@ -11,14 +11,23 @@ public class Account  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "acc_id")
+    @Column(name = "ACCOUNT_ID")
     private Integer accountId;
 
-    @Column(name = "ACC_NAME")
+    @Column(name = "ACCOUNT_NUMBER")
+    private Integer accountNumber;
+
+    @Column(name = "ACCOUNT_TYPE")
+    private String accountType;
+
+    @Column(name = "BALANCE")
+    private Integer balance;
+
+    @Column(name = "ACCOUNT_NAME")
     private String accountName;
 
-    @Column(name = "ACC_TYPE")
-    private String accountType;
+    @Column(name = "FK_CUSTOMER_ID")
+    private Integer customerId;
 
     public Integer getAccountId() {
         return accountId;
@@ -40,6 +49,30 @@ public class Account  implements Serializable {
         return accountType;
     }
 
+    public Integer getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(Integer accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
+
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
@@ -48,8 +81,11 @@ public class Account  implements Serializable {
     public String toString() {
         return "Account{" +
                 "accountId=" + accountId +
-                ", accountName='" + accountName + '\'' +
+                ", accountNumber=" + accountNumber +
                 ", accountType='" + accountType + '\'' +
+                ", balance=" + balance +
+                ", accountName='" + accountName + '\'' +
+                ", customerId=" + customerId +
                 '}';
     }
 }
