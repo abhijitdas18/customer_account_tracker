@@ -30,7 +30,12 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void deleteAccountById(Integer accountNumber) {
-         accountRepository.deleteById(accountNumber);
+        accountRepository.deleteById(accountNumber);
+    }
+
+    @Override
+    public void updateAccountByAccountNumber(Integer accountNumber) {
+        // accountRepository.
     }
 
 

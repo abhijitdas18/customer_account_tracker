@@ -19,6 +19,8 @@ public interface IAccountService {
     public void deleteAccountById(Integer accountNumber);
 
 
+    public void updateAccountByAccountNumber(Integer accountNumber);
+
     // This method is expected to return all Accounts including customer profile
     public List<Account> getAllAccounts();
 

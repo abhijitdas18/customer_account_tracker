@@ -5,6 +5,7 @@ import com.java.abhijitdas.foundation.bank.services.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,12 @@ public class BankController {
 
     @GetMapping(value = "/accounts/{id}")
     public Optional<Account> getAccount(@PathVariable Integer id) {
-        return accountService.getAccount(id);
+        Optional<Account> res = accountService.getAccount(id);
+
+        if(res.equals(null) || res.isEmpty()) {
+            throw new EntityNotFoundException("Invalid Account id : " + id);
+        }
+        return res;
     }
 
     @PostMapping(value = "/accounts")
@@ -38,6 +44,11 @@ public class BankController {
     @RequestMapping(value = "/accounts/{accountNumber}", method = RequestMethod.DELETE)
     public void deleteAccountById(@PathVariable Integer accountNumber) {
         accountService.deleteAccountByAccountNumber(accountNumber);
+    }
+
+    @PutMapping("/accounts/{id}")
+    public void updateAccountByAccountNumber(@PathVariable Integer id) {
+
     }
 
 
