@@ -7,9 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 @Transactional
 public interface AccountRepository  extends JpaRepository<Account, Integer> {
+
+    @Query(value = "SELECT * from bank.account acc where acc.account_number = ?1", nativeQuery = true)
+    public Optional<Account> findAccountByNumber(Integer accountNumber);
+
     @Modifying
     @Query(value = "DELETE from bank.account acc where acc.account_number = ?1", nativeQuery = true)
     public void deleteAccountByAccountNumber(Integer accountNumber);

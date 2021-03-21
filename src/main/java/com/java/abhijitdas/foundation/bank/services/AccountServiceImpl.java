@@ -23,13 +23,15 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Optional<Account> getAccount(Integer accNumber) {
+    public Optional<Account> findAccountByNumber(Integer accNumber) {
 
-        return accountRepository.findById(accNumber);
+        return accountRepository.findAccountByNumber(accNumber);
     }
+
 
     @Override
     public void deleteAccountById(Integer accountNumber) {
+
         accountRepository.deleteById(accountNumber);
     }
 
@@ -38,15 +40,9 @@ public class AccountServiceImpl implements IAccountService {
         // accountRepository.
     }
 
-
     @Override
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
-    }
-
-    @Override
-    public List<Customer> getAllCustomers() {
-        return null;
     }
 
     @Override
@@ -62,4 +58,5 @@ public class AccountServiceImpl implements IAccountService {
     public void deleteAccountByAccountNumber(Integer accountNumber) {
         accountRepository.deleteAccountByAccountNumber(accountNumber);
     }
+
 }
