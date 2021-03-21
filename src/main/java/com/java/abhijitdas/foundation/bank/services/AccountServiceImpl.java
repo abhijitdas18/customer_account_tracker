@@ -23,26 +23,26 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Optional<Account> getAccount(Integer accNumber) {
+    public Optional<Account> findAccountByNumber(Integer accNumber) {
 
-        return accountRepository.findById(accNumber);
+        return accountRepository.findAccountByNumber(accNumber);
     }
 
 
     @Override
     public void deleteAccountById(Integer accountNumber) {
-         accountRepository.deleteById(accountNumber);
+
+        accountRepository.deleteById(accountNumber);
     }
 
+    @Override
+    public void updateAccountByAccountNumber(Integer accountNumber) {
+        // accountRepository.
+    }
 
     @Override
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
-    }
-
-    @Override
-    public List<Customer> getAllCustomers() {
-        return null;
     }
 
     @Override

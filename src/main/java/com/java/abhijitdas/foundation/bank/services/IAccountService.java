@@ -14,17 +14,18 @@ public interface IAccountService {
 
     // This method is expected to receive an account number and
     // return the Account details.
-    public Optional<Account> getAccount(Integer accNumber);
+    public Optional<Account> findAccountByNumber(Integer accNumber);
 
 
     public void deleteAccountById(Integer accountNumber);
 
 
+    public void updateAccountByAccountNumber(Integer accountNumber);
+
     // This method is expected to return all Accounts including customer profile
     public List<Account> getAllAccounts();
 
-    // This method is expected to return all Customers details including account details
-    public List<Customer> getAllCustomers();
+
 
     // This method is expected to return transfer status like “ID MISATCH” or
     // “INSUFFICIENT FUNDS” or “SUCCESS” only.
