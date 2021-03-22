@@ -10,7 +10,7 @@ public interface IAccountService {
 
     // This method is expected to receive Account object and
     // creates account and customer details by invoking appropriate DAO
-    public void addAccount(Account account);
+    public Account addAccount(Account account);
 
     // This method is expected to receive an account number and
     // return the Account details.

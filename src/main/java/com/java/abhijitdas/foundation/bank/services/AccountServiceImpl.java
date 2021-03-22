@@ -16,15 +16,15 @@ public class AccountServiceImpl implements IAccountService {
     private AccountRepository accountRepository;
 
     @Override
-    public void addAccount(Account account) {
+    public Account addAccount(Account account) {
         System.out.println("Account : " + account);
-        accountRepository.save(account);
+        return accountRepository.save(account);
     }
 
     @Override
     public Optional<Account> findAccountByNumber(Integer accNumber) {
 
-        return accountRepository.findAccountByNumber(accNumber);
+        return accountRepository.findByAccountNumber(accNumber);
     }
 
 
@@ -56,7 +56,9 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public List<Account> findAccountsByCustomerId(Integer customerId) {
-        return accountRepository.findAccountsByCustomerId(customerId);
+        return accountRepository.findByCustomerId(customerId);
+        // Optional
+        //return accountRepository.findAccountsByCustomerId(customerId);
     }
 
     public void deleteAccountByAccountNumber(Integer accountNumber) {

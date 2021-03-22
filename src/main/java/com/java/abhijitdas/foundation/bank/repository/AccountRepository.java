@@ -14,13 +14,21 @@ import java.util.Optional;
 @Transactional
 public interface AccountRepository  extends JpaRepository<Account, Integer> {
 
-    @Query(value = "SELECT * from bank.account acc where acc.account_number = ?1", nativeQuery = true)
-    public Optional<Account> findAccountByNumber(Integer accountNumber);
+    //Optional to use Query
+    //@Query(value = "SELECT * from bank.account acc where acc.account_number = ?1", nativeQuery = true)
+    //public Optional<Account> findAccountByNumber(Integer accountNumber);
+
+    // Using findByXxx()
+    public Optional<Account> findByAccountNumber(Integer accountNumber);
 
     @Modifying
     @Query(value = "DELETE from bank.account acc where acc.account_number = ?1", nativeQuery = true)
     public void deleteAccountByAccountNumber(Integer accountNumber);
 
-    @Query(value = "SELECT * from BANK.ACCOUNT acc WHERE acc.fk_customer_id = ?1", nativeQuery = true)
-    public List<Account> findAccountsByCustomerId(Integer customerId);
+    // Optional to use Query
+    //@Query(value = "SELECT * from BANK.ACCOUNT acc WHERE acc.fk_customer_id = ?1", nativeQuery = true)
+    //public List<Account> findAccountsByCustomerId(Integer customerId);
+
+    // Using findByXxx()
+    public List<Account> findByCustomerId(Integer customerId);
 }
