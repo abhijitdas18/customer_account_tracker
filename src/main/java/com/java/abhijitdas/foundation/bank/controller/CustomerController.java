@@ -3,6 +3,7 @@ package com.java.abhijitdas.foundation.bank.controller;
 import com.java.abhijitdas.foundation.bank.entity.Customer;
 import com.java.abhijitdas.foundation.bank.services.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -21,13 +22,17 @@ public class CustomerController {
      *
      * @return
      */
-    @GetMapping("/")
+    @GetMapping("/customers")
     public List<Customer> getCustomers() {
-        return customerService.getAllCustomers();
+        List<Customer> listOfCustomer = customerService.getAllCustomers();
+        if(listOfCustomer.isEmpty() || listOfCustomer.size() == 0){
+            System.out.println("No Customer found.");
+        }
+        return listOfCustomer;
     }
 
     /**
-     *
+     * Get customer for id.
      * @param customerId
      * @return
      */
@@ -35,9 +40,14 @@ public class CustomerController {
     public Optional<Customer> getCustomer(@PathVariable Integer customerId) {
         Optional<Customer> customer = customerService.getCustomerById(customerId);
         if (customer.isEmpty() || customer.equals(null)) {
-            throw new EntityNotFoundException(("Invalid Customer id."));
+            throw new EntityNotFoundException(("Invalid Customer id. " + customerId));
         }
         return customer;
+    }
+
+    @PostMapping(value =  "/customers")
+    public void addCustomer(@RequestBody Customer customer){
+        customerService.addCustomer(customer);
     }
 
     /**
@@ -45,8 +55,16 @@ public class CustomerController {
      * @param customerId
      */
     @DeleteMapping(value = "/customers/{customerId}")
-    public void deleteCustomerById(@PathVariable Integer customerId) {
-        customerService.deleteCustomerById(customerId);
+    public String deleteCustomerById(@PathVariable Integer customerId) {
+
+        try {
+            customerService.deleteCustomerById(customerId);
+            return "Customer details successfully deleted.";
+        }catch(EmptyResultDataAccessException ex) {
+            throw new EntityNotFoundException(("Invalid Customer id. " + customerId));
+        }
     }
+
+
 
 }

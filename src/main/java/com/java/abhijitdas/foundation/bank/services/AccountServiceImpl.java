@@ -16,10 +16,9 @@ public class AccountServiceImpl implements IAccountService {
     private AccountRepository accountRepository;
 
     @Override
-    public String addAccount(Account account) {
+    public void addAccount(Account account) {
         System.out.println("Account : " + account);
         accountRepository.save(account);
-        return null;
     }
 
     @Override
@@ -53,6 +52,11 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public Account getBalanceOf(int accountNumber) {
         return null;
+    }
+
+    @Override
+    public List<Account> findAccountsByCustomerId(Integer customerId) {
+        return accountRepository.findAccountsByCustomerId(customerId);
     }
 
     public void deleteAccountByAccountNumber(Integer accountNumber) {

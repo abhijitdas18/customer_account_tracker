@@ -13,11 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/app/bank")
-public class BankController {
-
-//    @Autowired
-//    private AccountService accountService;
+@RequestMapping(value = "/app/account")
+public class AccountController {
 
     @Autowired
     private AccountServiceImpl accountService;
@@ -54,18 +51,23 @@ public class BankController {
      */
     @PostMapping(value = "/accounts")
     public String addAccount(@RequestBody Account account) {
-        accountService.addAccount(account);
-        return null;
+        try {
+            accountService.addAccount(account);
+            return "Account is created successfully with Account Id :" + account.getAccountId();
+        }catch (Exception e){
+            throw new EntityNotFoundException("Customer Id " + account.getCustomerId() + " is not valid.");
+        }
     }
 
     /**
+     * TODO : Not needed, as account details will be deleted by customer only
      * Delete an account based on account number.
      * @param accountNumber
      */
-    @RequestMapping(value = "/accounts/{accountNumber}", method = RequestMethod.DELETE)
+   /* @RequestMapping(value = "/accounts/{accountNumber}", method = RequestMethod.DELETE)
     public void deleteAccountById(@PathVariable Integer accountNumber) {
         accountService.deleteAccountByAccountNumber(accountNumber);
-    }
+    }*/
 
 
     /**
@@ -77,5 +79,19 @@ public class BankController {
 
     }
 
+    /**
+     * Get All account details for a customer id
+     * @param customerId
+     * @return
+     */
+    @GetMapping(value = "/accounts/customers/{customerId}")
+    public List<Account> getAccountsForCustomer(@PathVariable Integer customerId){
+        System.out.println("Customer id : " + customerId);
+        List<Account> listOfAccounts =  accountService.findAccountsByCustomerId(customerId);
+        if(listOfAccounts.size() < 1){
+            System.out.println("No accounts details found for the customer id. " + customerId);
+        }
+        return listOfAccounts;
+    }
 
 }
