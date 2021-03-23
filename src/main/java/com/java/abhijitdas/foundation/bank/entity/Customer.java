@@ -8,7 +8,7 @@ public class Customer implements Serializable {
 
     private static long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private Integer customerId;
 
     @Column(name = "first_name")

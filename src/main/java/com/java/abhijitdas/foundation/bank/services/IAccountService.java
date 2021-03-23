@@ -2,6 +2,8 @@ package com.java.abhijitdas.foundation.bank.services;
 
 import com.java.abhijitdas.foundation.bank.entity.Account;
 import com.java.abhijitdas.foundation.bank.entity.Customer;
+import com.java.abhijitdas.foundation.bank.entity.FundTransfer;
+import com.java.abhijitdas.foundation.bank.entity.Transaction;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,4 +43,6 @@ public interface IAccountService {
     public Account getBalanceOf(int accountNumber);
 
     public List<Account> findAccountsByCustomerId(Integer customerId);
+
+    public Transaction fundTransfer(FundTransfer fundTransfer);
 }

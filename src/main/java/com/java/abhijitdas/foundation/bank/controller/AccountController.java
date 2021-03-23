@@ -1,6 +1,8 @@
 package com.java.abhijitdas.foundation.bank.controller;
 
 import com.java.abhijitdas.foundation.bank.entity.Account;
+import com.java.abhijitdas.foundation.bank.entity.FundTransfer;
+import com.java.abhijitdas.foundation.bank.entity.Transaction;
 import com.java.abhijitdas.foundation.bank.services.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class AccountController {
      *
      * @return List of accounts
      */
-    @GetMapping("/account")
+    @GetMapping("/accounts")
     public List<Account> getAccounts() {
 
         return accountService.getAllAccounts();
@@ -105,6 +107,14 @@ public class AccountController {
             System.out.println("No accounts details found for the customer id. " + customerId);
         }
         return listOfAccounts;
+    }
+
+
+    @PostMapping(value = "/accounts/fundTransfer")
+    public Transaction fundTransfer(@RequestBody FundTransfer fundTransfer){
+
+        Transaction transaction = accountService.fundTransfer(fundTransfer);
+        return transaction;
     }
 
 }

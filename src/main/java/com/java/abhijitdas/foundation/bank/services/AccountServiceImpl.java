@@ -1,16 +1,26 @@
 package com.java.abhijitdas.foundation.bank.services;
 
 import com.java.abhijitdas.foundation.bank.entity.Account;
-import com.java.abhijitdas.foundation.bank.entity.Customer;
+import com.java.abhijitdas.foundation.bank.entity.FundTransfer;
+import com.java.abhijitdas.foundation.bank.entity.Transaction;
 import com.java.abhijitdas.foundation.bank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class AccountServiceImpl implements IAccountService {
+
+    static int counter = 1000;
+
+    public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter LD_FOMATTER
+            = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -59,6 +69,35 @@ public class AccountServiceImpl implements IAccountService {
         return accountRepository.findByCustomerId(customerId);
         // Optional
         //return accountRepository.findAccountsByCustomerId(customerId);
+    }
+
+    @Override
+    public Transaction fundTransfer(FundTransfer fundTransfer) {
+
+        int fromAccNo = fundTransfer.getFromAccountNumber();
+        int toAccNo = fundTransfer.getToAccountNumber();
+        int amt = fundTransfer.getAmount();
+
+        Optional<Account> fromAccountOpt = accountRepository.findByAccountNumber(fromAccNo);
+        Account fromAccount = fromAccountOpt.get();
+        if(fromAccount.getBalance() > amt) {
+            fromAccount.setBalance(fromAccount.getBalance() - amt);
+            accountRepository.save(fromAccount);
+
+           Optional<Account> toAccountOpt = accountRepository.findByAccountNumber(toAccNo);
+           Account toAccount = toAccountOpt.get();
+
+           toAccount.setBalance(toAccount.getBalance() + amt);
+           accountRepository.save(toAccount);
+
+
+            LocalDateTime ldt = LocalDateTime.now();
+           String dateTimeString = LD_FOMATTER.format(ldt);
+           Transaction transaction = new Transaction(++counter,amt,dateTimeString);
+
+           return transaction;
+        }
+        return  null;
     }
 
     public void deleteAccountByAccountNumber(Integer accountNumber) {
