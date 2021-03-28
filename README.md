@@ -30,3 +30,5 @@ GET : http://localhost:8080/account/accounts/customers/12345
 PUT : http://localhost:8080/account/accounts/12345
 6. To do fund transfer for account1 to account2
 POST: http://localhost:8080/account/accounts/fundTransfer
+
+Unit Test Cases are added for service, repository layers.
