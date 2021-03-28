@@ -7,8 +7,8 @@ import com.java.abhijitdas.foundation.bank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +19,7 @@ public class AccountServiceImpl implements IAccountService {
     static int counter = 1000;
 
     public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    public static final DateTimeFormatter LD_FOMATTER
+    public static final DateTimeFormatter DATE_TIME_FORMATTER
             = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     @Autowired
@@ -27,14 +27,14 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account addAccount(Account account) {
-        System.out.println("Account : " + account);
         return accountRepository.save(account);
     }
 
     @Override
-    public Optional<Account> findAccountByNumber(Integer accNumber) {
+    public Account findAccountByNumber(Integer accNumber) {
 
-        return accountRepository.findByAccountNumber(accNumber);
+        Account account = accountRepository.findByAccountNumber(accNumber).get();
+        return account;
     }
 
 
@@ -45,8 +45,23 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public void updateAccountByAccountNumber(Integer accountNumber) {
-        // accountRepository.
+    public Account updateAccountByAccountNumber(Integer accountNumber, Account account) {
+//        Account accountObj = findAccountByNumber(accountNumber)
+//                .orElseThrow(() -> new EntityNotFoundException("Account Number : "
+//                + accountNumber + " is not found."));
+        Account accountObj = findAccountByNumber(accountNumber);
+        if(accountObj == null) {
+            throw new EntityNotFoundException("Account Number : " + accountNumber + " is not found.");
+        }
+        //accountObj.setAccountNumber(account.getAccountNumber());
+        accountObj.setAccountName(account.getAccountName());
+        accountObj.setAccountType(account.getAccountType());
+        account.setBalance(account.getBalance());
+        account.setCustomerId(account.getCustomerId());
+
+        Account updatedAccount = addAccount(account);
+        return updatedAccount;
+
     }
 
     @Override
@@ -92,7 +107,7 @@ public class AccountServiceImpl implements IAccountService {
 
 
             LocalDateTime ldt = LocalDateTime.now();
-           String dateTimeString = LD_FOMATTER.format(ldt);
+           String dateTimeString = DATE_TIME_FORMATTER.format(ldt);
            Transaction transaction = new Transaction(++counter,amt,dateTimeString);
 
            return transaction;

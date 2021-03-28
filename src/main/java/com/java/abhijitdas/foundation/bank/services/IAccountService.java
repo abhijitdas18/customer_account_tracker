@@ -16,13 +16,13 @@ public interface IAccountService {
 
     // This method is expected to receive an account number and
     // return the Account details.
-    public Optional<Account> findAccountByNumber(Integer accNumber);
+    public Account findAccountByNumber(Integer accNumber);
 
 
     public void deleteAccountById(Integer accountNumber);
 
 
-    public void updateAccountByAccountNumber(Integer accountNumber);
+    public Account updateAccountByAccountNumber(Integer accountNumber, Account account);
 
     // This method is expected to return all Accounts including customer profile
     public List<Account> getAllAccounts();

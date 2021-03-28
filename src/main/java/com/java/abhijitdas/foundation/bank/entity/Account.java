@@ -29,6 +29,28 @@ public class Account  implements Serializable {
     @Column(name = "FK_CUSTOMER_ID")
     private Integer customerId;
 
+    public Account() {
+    }
+
+    public Account(Integer accountId, Integer accountNumber, String accountType, Integer balance,
+                   String accountName, Integer customerId) {
+        this.accountId = accountId;
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.balance = balance;
+        this.accountName = accountName;
+        this.customerId = customerId;
+    }
+
+    public Account(Integer accountNumber, String accountType, Integer balance,
+                   String accountName, Integer customerId) {
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.balance = balance;
+        this.accountName = accountName;
+        this.customerId = customerId;
+    }
+
     public Integer getAccountId() {
         return accountId;
     }

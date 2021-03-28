@@ -19,6 +19,7 @@ public class AccountController {
     @Autowired
     private AccountServiceImpl accountService;
 
+    // -------------------Retrieve All Accounts---------------------------------------------
     /**
      * Get all accounts details
      *
@@ -29,7 +30,7 @@ public class AccountController {
 
         return accountService.getAllAccounts();
     }
-
+    // -------------------Retrieve an account details for an account number------------------
     /**
      * Get an account details for an account number.
      *
@@ -37,17 +38,16 @@ public class AccountController {
      * @return
      */
     @GetMapping(value = "/accounts/{accountNumber}")
-    public Optional<Account> getAccount(@PathVariable Integer accountNumber) {
-        Optional<Account> res = accountService.findAccountByNumber(accountNumber);
-
-        if (res.equals(null) || res.isEmpty()) {
+    public Account getAccount(@PathVariable Integer accountNumber) {
+        Account account = accountService.findAccountByNumber(accountNumber);
+        if (account == null) {
             throw new EntityNotFoundException("Invalid Account id : " + accountNumber);
         }
-        return res;
+        return account;
     }
-
+    // -------------------Create an account---------------------------------------------------
     /**
-     * Add a new account
+     * Add/Create a new account.
      *
      * @param account
      * @return
@@ -74,27 +74,20 @@ public class AccountController {
 
 
     /**
-     * Update an account based on Account number
+     * Update an account based on Account number.
      *
      * @param accountNumber
      */
     @PutMapping("/accounts/{accountNumber}")
-    public ResponseEntity<Account> updateAccountByAccountNumber(@PathVariable Integer accountNumber, @RequestBody Account account) {
+    public ResponseEntity<Account> updateAccountByAccountNumber(@PathVariable Integer accountNumber,
+                                                                @RequestBody Account account) {
 
-        Account accountObj = accountService.findAccountByNumber(accountNumber)
-                .orElseThrow(() -> new EntityNotFoundException("Account Number : " + accountNumber + " is not found."));
-
-        //accountObj.setAccountNumber(account.getAccountNumber());
-        accountObj.setAccountName(account.getAccountName());
-        accountObj.setAccountType(account.getAccountType());
-        account.setBalance(account.getBalance());
-
-        return ResponseEntity.ok(accountService.addAccount(account));
-
+        Account updatedAccount = accountService.updateAccountByAccountNumber(accountNumber, account);
+        return ResponseEntity.ok(updatedAccount);
     }
 
     /**
-     * Get All account details for a customer id
+     * Get All account details for a customer id.
      *
      * @param customerId
      * @return
@@ -109,7 +102,11 @@ public class AccountController {
         return listOfAccounts;
     }
 
-
+    /**
+     * Fund transfer for account 1 to account 2.
+     * @param fundTransfer
+     * @return
+     */
     @PostMapping(value = "/accounts/fundTransfer")
     public Transaction fundTransfer(@RequestBody FundTransfer fundTransfer){
 
