@@ -66,5 +66,15 @@ public class CustomerController {
     }
 
 
+    // This method is expected to return all Customers
+    // details including account details
+    //TODO::
+    @GetMapping(value = "/customers/accounts")
+    public List<Customer> getAllCustomersWithAccounts(){
+        customerService.getAllCustomersWithAccounts();
+        return null;
+    }
+
+
 
 }

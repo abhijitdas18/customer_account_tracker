@@ -15,4 +15,6 @@ public interface ICustomerService {
     public Optional<Customer> getCustomerById(Integer customerId);
 
     public  void deleteCustomerById(Integer customerId);
+
+    public void getAllCustomersWithAccounts();
 }

@@ -91,37 +91,43 @@ public class AccountServiceImpl implements IAccountService {
         //return accountRepository.findAccountsByCustomerId(customerId);
     }
 
+    // This method is expected to return transfer status like “ID MISATCH”
+    // or “INSUFFICIENT FUNDS” or “SUCCESS” only.
     @Override
     public Transaction fundTransfer(FundTransfer fundTransfer) {
 
         int fromAccNo = fundTransfer.getFromAccountNumber();
         int toAccNo = fundTransfer.getToAccountNumber();
         int amt = fundTransfer.getAmount();
+        String message = null;
+        Transaction transaction = null;
+
+        LocalDateTime ldt = LocalDateTime.now();
+        String dateTimeString = DATE_TIME_FORMATTER.format(ldt);
 
         Optional<Account> fromAccountOpt = accountRepository.findByAccountNumber(fromAccNo);
-        Account fromAccount = fromAccountOpt.get();
-        if(fromAccount.getBalance() > amt) {
-            fromAccount.setBalance(fromAccount.getBalance() - amt);
-            accountRepository.save(fromAccount);
+        Account fromAccount = null;
+        if(fromAccountOpt.isEmpty()){
+            message = "ID MISATCH";
+        }else{
+            fromAccount = fromAccountOpt.get();
 
-           Optional<Account> toAccountOpt = accountRepository.findByAccountNumber(toAccNo);
-           Account toAccount = toAccountOpt.get();
+            if(fromAccount.getBalance() > amt) {
+                fromAccount.setBalance(fromAccount.getBalance() - amt);
+                accountRepository.save(fromAccount);
 
-           toAccount.setBalance(toAccount.getBalance() + amt);
-           accountRepository.save(toAccount);
+                Optional<Account> toAccountOpt = accountRepository.findByAccountNumber(toAccNo);
+                Account toAccount = toAccountOpt.get();
 
+                toAccount.setBalance(toAccount.getBalance() + amt);
+                accountRepository.save(toAccount);
+                message = "SUCCESS";
 
-            LocalDateTime ldt = LocalDateTime.now();
-           String dateTimeString = DATE_TIME_FORMATTER.format(ldt);
-           Transaction transaction = new Transaction(++counter,amt,dateTimeString);
-
-           return transaction;
+            } else {
+                message = "INSUFFICIENT FUNDS";
+            }
         }
-        return  null;
+        transaction = new Transaction(++counter,amt,dateTimeString, message);
+        return transaction;
     }
-
-    public void deleteAccountByAccountNumber(Integer accountNumber) {
-        accountRepository.deleteAccountByAccountNumber(accountNumber);
-    }
-
 }
