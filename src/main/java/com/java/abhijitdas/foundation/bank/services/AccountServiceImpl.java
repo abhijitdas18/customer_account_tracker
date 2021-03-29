@@ -49,17 +49,22 @@ public class AccountServiceImpl implements IAccountService {
 //        Account accountObj = findAccountByNumber(accountNumber)
 //                .orElseThrow(() -> new EntityNotFoundException("Account Number : "
 //                + accountNumber + " is not found."));
-        Account accountObj = findAccountByNumber(accountNumber);
-        if(accountObj == null) {
+        System.out.println("Acc no :" + accountNumber);
+
+
+        Account storedAccountObj = findAccountByNumber(accountNumber);
+        System.out.println("storedAccountObj : "+ storedAccountObj);
+        if(storedAccountObj == null) {
             throw new EntityNotFoundException("Account Number : " + accountNumber + " is not found.");
         }
-        //accountObj.setAccountNumber(account.getAccountNumber());
-        accountObj.setAccountName(account.getAccountName());
-        accountObj.setAccountType(account.getAccountType());
-        account.setBalance(account.getBalance());
-        account.setCustomerId(account.getCustomerId());
+        System.out.println("storedAccountObj Acc no:" + storedAccountObj.getAccountNumber());
+        storedAccountObj.setAccountNumber(storedAccountObj.getAccountNumber());
+        storedAccountObj.setAccountName(account.getAccountName());
+        storedAccountObj.setAccountType(account.getAccountType());
+        storedAccountObj.setBalance(account.getBalance());
+        storedAccountObj.setCustomerId(account.getCustomerId());
 
-        Account updatedAccount = addAccount(account);
+        Account updatedAccount = addAccount(storedAccountObj);
         return updatedAccount;
 
     }
