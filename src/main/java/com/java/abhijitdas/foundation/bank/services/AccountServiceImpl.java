@@ -81,7 +81,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account getBalanceOf(int accountNumber) {
-        return null;
+        return findAccountByNumber(accountNumber);
     }
 
     @Override

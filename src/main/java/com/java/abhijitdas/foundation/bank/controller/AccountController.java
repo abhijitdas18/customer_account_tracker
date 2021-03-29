@@ -114,4 +114,10 @@ public class AccountController {
         return transaction;
     }
 
+    @GetMapping(value = "/accounts/{accountNumber}/balance")
+    public Account getBalanceOf(@PathVariable Integer accountNumber){
+        Account  account = accountService.getBalanceOf(accountNumber);
+        return account;
+    }
+
 }
