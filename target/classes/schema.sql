@@ -11,13 +11,3 @@ CREATE TABLE `account` (
   KEY `fk_customer_id_idx` (`fk_customer_id`),
   CONSTRAINT `fk_customer_id` FOREIGN KEY (`fk_customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-
-drop table if exists customer;
-CREATE TABLE `customer` (
-  `customer_id` int NOT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `email` varchar(45) NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This is customer table'
