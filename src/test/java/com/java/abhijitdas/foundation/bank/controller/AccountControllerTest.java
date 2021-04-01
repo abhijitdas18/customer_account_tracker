@@ -14,9 +14,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class AccountControllerTest {
@@ -34,15 +38,36 @@ class AccountControllerTest {
     }
 
     @Test
-    void getAccounts() {
+    void getAccountsTest() {
+
+        Account account1 =  new Account(101, 12345, "savings",
+                5000, "savings", 100);
+        Account account2 =  new Account(102, 34567, "savings",
+                5000, "savings", 100);
+        Account account3 =  new Account(103, 456789, "savings",
+                5000, "savings", 100);
+
+        List<Account> listOfAccount;
+        listOfAccount = new ArrayList<>();
+        listOfAccount.add(account1);
+        listOfAccount.add(account2);
+        listOfAccount.add(account3);
+
+        when(accountService.getAllAccounts()).thenReturn(listOfAccount);
+
+        List<Account> accountList = accountController.getAccounts();
+
+        assertThat(accountList.size()).isEqualTo(3);
+        assertThat(accountList.get(1).getAccountNumber()).isEqualTo(34567);
     }
 
     @Test
     void getAccount() {
+
     }
 
     @Test
-    void addAccount() {
+    void addAccountTest() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
